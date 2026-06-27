@@ -187,7 +187,7 @@ export default function CartDrawer() {
                 <div className="cart-items" data-testid="cart-items">
                   {items.map((i) => (
                     <div className="cart-item" key={i.id} data-testid={`cart-item-${i.id}`}>
-                      <img src={i.img} alt={i.name} />
+                      {i.img ? <img src={i.img} alt={i.name} /> : <div style={{ width: 56, height: 56, borderRadius: 8, background: 'var(--canvas-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }} aria-hidden="true">🍽️</div>}
                       <div className="cart-item-info">
                         <b>{i.name}</b>
                         <span>PKR {i.price}</span>
