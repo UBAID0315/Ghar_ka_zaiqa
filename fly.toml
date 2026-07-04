@@ -1,24 +1,27 @@
-# fly.toml — Ghar Ka Zaiqa deployment config
-# Generated for Fly.io (fly.io)
+# fly.toml app configuration file generated for ghar-ka-zaiqa-vlnrla on 2026-07-04T20:56:35Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "ghar-ka-zaiqa"
-primary_region = "lhr"   # London — good free capacity
+app = 'ghar-ka-zaiqa-vlnrla'
+primary_region = 'lhr'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  PORT = "8000"
-  DB_NAME = "gharkazaiqa"
+  DB_NAME = 'gharkazaiqa'
+  PORT = '8000'
 
 [http_service]
-  internal_port = 8000
+  internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
 
 [[vm]]
-  memory = "512mb"
-  cpu_kind = "shared"
+  memory = '512mb'
+  cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 256
