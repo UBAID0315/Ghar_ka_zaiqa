@@ -1,0 +1,24 @@
+# fly.toml — Ghar Ka Zaiqa deployment config
+# Generated for Fly.io (fly.io)
+
+app = "ghar-ka-zaiqa"
+primary_region = "sin"   # Singapore — closest free region to Pakistan
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8000"
+  DB_NAME = "gharkazaiqa"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
