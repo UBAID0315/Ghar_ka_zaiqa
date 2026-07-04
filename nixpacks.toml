@@ -1,0 +1,17 @@
+# Unified build: React frontend + FastAPI backend
+# Railway will use this root-level config when deploying from the repo root.
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "python3", "python3Packages.pip"]
+
+[phases.install]
+cmds = [
+  "cd gharkazaiqa && npm install --legacy-peer-deps",
+  "pip install -r backend/requirements.txt"
+]
+
+[phases.build]
+cmds = ["cd gharkazaiqa && npm run build"]
+
+[start]
+cmd = "cd backend && uvicorn server:app --host 0.0.0.0 --port $PORT"

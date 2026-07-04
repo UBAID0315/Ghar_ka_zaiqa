@@ -14,6 +14,8 @@ import jwt
 import bcrypt
 from bson import ObjectId
 from fastapi import FastAPI, APIRouter, HTTPException, Request, Depends
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
@@ -420,6 +422,31 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# ===================== REACT SPA STATIC SERVING =====================
+# Serves the React build so the frontend and backend run on the same URL.
+# /static/* → JS/CSS/image bundles from the React build
+# Everything else → index.html (React Router handles client-side routing)
+FRONTEND_BUILD = ROOT_DIR.parent / "gharkazaiqa" / "build"
+
+if FRONTEND_BUILD.exists():
+    _static_dir = FRONTEND_BUILD / "static"
+    if _static_dir.exists():
+        app.mount("/static", StaticFiles(directory=str(_static_dir)), name="frontend-static")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        """Catch-all: serve specific build files or fall back to index.html for React Router."""
+        # Don't intercept unknown /api/ requests — let FastAPI return its own 404
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        # Serve specific files that exist in the build folder (favicon.ico, manifest.json, etc.)
+        file_path = FRONTEND_BUILD / full_path
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(str(file_path))
+        # Fallback: serve index.html and let React Router handle the path
+        return FileResponse(str(FRONTEND_BUILD / "index.html"))
 
 
 @app.on_event("startup")
