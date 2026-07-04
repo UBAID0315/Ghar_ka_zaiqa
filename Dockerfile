@@ -24,8 +24,8 @@ COPY backend/ ./backend/
 # Copy React build from stage 1
 COPY --from=frontend-builder /app/gharkazaiqa/build ./gharkazaiqa/build
 
-# Expose port
-EXPOSE 8000
+# Expose port (Fly.io default PORT=8080)
+EXPOSE 8080
 
-# Start the FastAPI server
-CMD ["uvicorn", "backend.server:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use shell form so $PORT env variable is expanded
+CMD uvicorn backend.server:app --host 0.0.0.0 --port ${PORT:-8080}

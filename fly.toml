@@ -11,7 +11,7 @@ primary_region = 'lhr'
 
 [env]
   DB_NAME = 'gharkazaiqa'
-  PORT = '8000'
+  PORT = '8080'
 
 [http_service]
   internal_port = 8080
