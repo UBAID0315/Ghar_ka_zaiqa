@@ -2,7 +2,7 @@
 # Generated for Fly.io (fly.io)
 
 app = "ghar-ka-zaiqa"
-primary_region = "sin"   # Singapore — closest free region to Pakistan
+primary_region = "lhr"   # London — good free capacity
 
 [build]
   dockerfile = "Dockerfile"
