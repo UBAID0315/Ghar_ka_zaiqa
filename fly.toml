@@ -9,6 +9,9 @@ primary_region = 'lhr'
 [build]
   dockerfile = 'Dockerfile'
 
+[processes]
+  app = "uvicorn backend.server:app --host 0.0.0.0 --port 8080"
+
 [env]
   DB_NAME = 'gharkazaiqa'
   PORT = '8080'
@@ -21,7 +24,6 @@ primary_region = 'lhr'
   min_machines_running = 0
 
 [[vm]]
-  memory = '512mb'
+  memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 256
