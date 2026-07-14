@@ -13,5 +13,5 @@ COPY backend/ ./backend/
 # Expose port
 EXPOSE 8080
 
-# Start FastAPI with uvicorn
-CMD uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8080}
+# Start FastAPI — use sh -c so $PORT expands correctly (Railway runs CMD without a shell by default)
+CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
