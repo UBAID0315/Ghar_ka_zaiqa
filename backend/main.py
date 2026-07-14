@@ -413,6 +413,11 @@ async def upload_image(data: ImageUploadRequest, user: dict = Depends(get_curren
         raise HTTPException(status_code=400, detail=f"Image processing failed: {str(e)}")
 
 
+@api_router.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
 app.include_router(api_router)
 
 app.add_middleware(
