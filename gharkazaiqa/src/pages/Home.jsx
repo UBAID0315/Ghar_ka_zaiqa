@@ -204,7 +204,9 @@ export default function Home() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4"><path d="M15 18l-6-6 6-6" /></svg>
             </button>
             <div className="carousel-track" ref={trackRef}>
-              {menuItems.filter(d => d.available).map((d) => (
+              {safeMenuItems
+              .filter(d => d?.available)
+              .map((d) => (
                 <div className={`dish dish-${d.id}`} key={d.id} data-testid={`dish-${d.id}`}>
                   {d.img ? <img className="plate-img" src={d.img} alt={d.name} /> : <div className="plate-img-placeholder">🍽️</div>}
                   <h3>{d.name}</h3>
