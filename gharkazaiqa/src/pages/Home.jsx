@@ -12,6 +12,7 @@ import t5 from '../assets/t5.webp'
 import { weeklyPlans, offers, stats, WHATSAPP_NUMBER } from '../data/menu'
 import { useCart } from '../context/CartContext'
 import api from '../lib/api'
+import { normalizeArrayResponse } from '../lib/utils'
 import { Star, Clock, Check, Plus, Wa, Arrow } from '../components/icons'
 
 const WA = `https://wa.me/${WHATSAPP_NUMBER}`
@@ -23,14 +24,6 @@ const reviews = [
   { q: 'Soft roti, daal that tastes like home. No noon cooking now.', n: 'Sana Iqbal', r: 'Home office, DHA', img: t4 },
   { q: 'We order for eight. Hot, sealed, same taste every day.', n: 'Usman Raza', r: 'Team, Faisal Town', img: t5 },
 ]
-function normalizeMenuItems(value) {
-  if (Array.isArray(value)) return value
-  if (!value || typeof value !== 'object') return []
-  if (Array.isArray(value.items)) return value.items
-  if (Array.isArray(value.menu)) return value.menu
-  if (Array.isArray(value.data)) return value.data
-  return []
-}
 function useReveal() {
   useEffect(() => {
     const els = Array.from(document.querySelectorAll('.reveal'))
@@ -86,13 +79,13 @@ export default function Home() {
   const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
   
   const [heroIdx, setHeroIdx] = useState(0)
-  const safeMenuItems = normalizeMenuItems(menuItems)
+  const safeMenuItems = normalizeArrayResponse(menuItems)
   const heroImages = Array.from(new Set([dishBiryani, ...safeMenuItems.filter(m => m?.img).map(m => m.img)]))
 
   useEffect(() => {
     api.get('/menu')
       .then(res => {
-        const data = normalizeMenuItems(res?.data)
+        const data = normalizeArrayResponse(res?.data)
         setMenuItems(data)
       })
       .catch(err => console.error("Could not fetch menu", err))

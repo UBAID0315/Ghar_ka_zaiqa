@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import api from '../lib/api'
+import { normalizeArrayResponse } from '../lib/utils'
 import logo from '../assets/logo.webp'
 
 const STATUSES = [
@@ -163,8 +164,10 @@ function MenuTab() {
   const fileRef = useRef()
 
   const load = useCallback(async () => {
-    try { const r = await api.get('/menu'); setItems(r.data) }
-    finally { setLoading(false) }
+    try {
+      const r = await api.get('/menu')
+      setItems(normalizeArrayResponse(r.data))
+    } finally { setLoading(false) }
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -591,13 +594,13 @@ export default function AdminDashboard() {
         api.get('/orders', { params: { status: filter } }),
         api.get('/orders/stats'),
       ])
-      setOrders(o.data)
-      setStats(s.data)
+      setOrders(normalizeArrayResponse(o.data))
+      setStats(s.data || { total: 0, new: 0, today: 0, revenue: 0 })
     } finally { setLoading(false) }
   }, [filter])
 
   const loadUsers = useCallback(async () => {
-    try { const r = await api.get('/users'); setUsers(r.data) } catch { }
+    try { const r = await api.get('/users'); setUsers(normalizeArrayResponse(r.data)) } catch { }
   }, [])
 
   useEffect(() => {
