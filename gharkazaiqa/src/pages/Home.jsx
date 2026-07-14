@@ -79,11 +79,23 @@ export default function Home() {
   const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
   
   const [heroIdx, setHeroIdx] = useState(0)
-  const heroImages = Array.from(new Set([dishBiryani, ...menuItems.filter(m => m.img).map(m => m.img)]))
+  const safeMenuItems = Array.isArray(menuItems)
+    ? menuItems
+    : Array.isArray(menuItems?.items)
+      ? menuItems.items
+      : []
+  const heroImages = Array.from(new Set([dishBiryani, ...safeMenuItems.filter(m => m?.img).map(m => m.img)]))
 
   useEffect(() => {
     api.get('/menu')
-      .then(res => setMenuItems(res.data))
+      .then(res => {
+        const data = Array.isArray(res?.data)
+          ? res.data
+          : Array.isArray(res?.data?.items)
+            ? res.data.items
+            : []
+        setMenuItems(data)
+      })
       .catch(err => console.error("Could not fetch menu", err))
   }, [])
 
