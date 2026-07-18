@@ -481,7 +481,7 @@ body.gkz-loaded, .gkz-app {
 .order-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: auto }
 .order-actions select { padding: 10px 14px; border: 1.4px solid var(--line); border-radius: 10px; font-family: inherit; font-weight: 600; color: var(--ink); background: var(--canvas) }
 .order-wa { background: #1faf54; color: #fff; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: .85rem }
-.order-del { position: absolute; top: 14px; right: 14px; color: #ef4444; font-size: 1.1rem; background: none; border: none; cursor: pointer; padding: 4px; transition: color 0.2s }
+.order-del { position: absolute; bottom: 14px; right: 14px; color: #ef4444; font-size: 1.1rem; background: none; border: none; cursor: pointer; padding: 4px; transition: color 0.2s }
 .order-del:hover { color: #b91c1c; }
 
 /* ===================== REVEAL ===================== */
@@ -558,7 +558,7 @@ body.gkz-loaded, .gkz-app {
   .btn-order { display: none }
   .nav-bar { padding: clamp(16px, 4vw, 24px) clamp(16px, 4vw, 20px) clamp(8px, 2vw, 12px) }
   .brand-logo img { height: clamp(64px, 12vw, 86px) }
-  .strip .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px }
+  .strip .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; justify-items: center; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 12px; padding: clamp(28px, 5vw, 44px) clamp(12px, 3vw, 20px) }
   .weekly-plans { grid-template-columns: 1fr }
 }

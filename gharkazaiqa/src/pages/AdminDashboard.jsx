@@ -619,10 +619,26 @@ export default function AdminDashboard() {
     await api.patch(`/orders/${id}/status`, { status })
     load()
   }
-  const removeOrder = async (id) => {
-    if (!window.confirm('Delete this order?')) return
-    await api.delete(`/orders/${id}`)
-    load()
+
+  const [deleteToast, setDeleteToast] = useState(null)
+
+  useEffect(() => {
+    if (deleteToast) {
+      if (deleteToast.seconds > 0) {
+        const timer = setTimeout(() => {
+          setDeleteToast(prev => prev ? { ...prev, seconds: prev.seconds - 1 } : null)
+        }, 1000)
+        return () => clearTimeout(timer)
+      } else {
+        api.delete(`/orders/${deleteToast.id}`).then(() => load())
+        setDeleteToast(null)
+      }
+    }
+  }, [deleteToast, load])
+
+  const removeOrder = (id) => {
+    setOrders(prev => prev.filter(o => o.id !== id))
+    setDeleteToast({ id, seconds: 5 })
   }
 
   if (user === null) return <div className="admin-loading">Loading…</div>
@@ -644,7 +660,6 @@ export default function AdminDashboard() {
         </div>
         <div className="admin-header-right">
           <a href="/" className="admin-link">View Site</a>
-          <a href="/chef" className="admin-link">Chef Board</a>
           <button className="admin-logout" onClick={() => { logout(); nav('/admin/login') }} data-testid="admin-logout">Logout</button>
         </div>
       </header>
@@ -664,6 +679,11 @@ export default function AdminDashboard() {
         {activeTab === 'users' && <UsersTab users={users} loadUsers={loadUsers} />}
         {activeTab === 'analytics' && <AnalyticsTab orders={orders} />}
       </div>
+      {deleteToast && (
+        <div style={{ position: 'fixed', bottom: '30px', left: '50%', transform: 'translateX(-50%)', background: '#262626', color: '#fff', padding: '14px 28px', border: '1px solid #404040', borderRadius: '12px', zIndex: 9999, fontWeight: '700', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
+          Order is deleting in {deleteToast.seconds > 0 ? deleteToast.seconds : 'boom'}...
+        </div>
+      )}
     </div>
   )
 }
