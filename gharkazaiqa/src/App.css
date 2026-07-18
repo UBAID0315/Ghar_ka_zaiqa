@@ -571,7 +571,7 @@ body.gkz-loaded, .gkz-app {
   .carousel-btn svg { width: 18px; height: 18px }
   .carousel-btn.prev { left: 4px }
   .carousel-btn.next { right: 4px }
-  .dish { flex-basis: 78vw; max-width: 320px }
+  .dish { flex: 0 0 78vw; max-width: 320px }
   .carousel-track { gap: 16px; padding-top: 105px; padding-bottom: 22px; padding-left: calc(50vw - min(40vw, 165px)); padding-right: calc(50vw - min(40vw, 165px)) }
   .weekly-plan-card { padding: 28px 22px }
   .weekly-plan-watermark { font-size: 4rem; padding: 18px 22px }
@@ -618,7 +618,7 @@ body.gkz-loaded, .gkz-app {
   .hero-actions { gap: 10px }
   .gkz-app .btn { padding: 12px 22px; font-size: .92rem }
   .menu-carousel { margin-left: -16px; margin-right: -16px }
-  .dish { flex-basis: 84vw }
+  .dish { flex: 0 0 84vw }
   .tcard { flex-basis: 260px; min-height: 220px }
   .chip { padding: 8px 12px 8px 10px; font-size: .78rem }
   .gkz-app .fab-cart { width: 52px; height: 52px; bottom: 20px; right: 20px }
